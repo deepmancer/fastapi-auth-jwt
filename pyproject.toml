@@ -1,0 +1,105 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "fastapi_auth_jwt"
+authors = [
+    { name = "Alireza Heidari", email = "alirezaheidari.cs@gmail.com" },
+]
+maintainers = [
+    { name = "Alireza Heidari", email = "alirezaheidari.cs@gmail.com" },
+]
+description = "FastAPI-Auth-JWT is a ready-to-use and easy-to-customize authentication middleware for FastAPI."
+readme = "README.md"
+requires-python = ">=3.8"
+dynamic = ["version"]
+keywords = [
+    "fastapi",
+    "fastapi-user-auth",
+    "fastapi-auth-jwt",
+    "fastapi-auth-middleware",
+    "fastapi-users",
+    "fastapi-jwt-auth",
+    "fastapi-jwt",
+    "fastapi-middleware",
+    "redis",
+]
+classifiers = [
+    "Framework :: FastAPI",
+    "Environment :: Web Environment",
+    "Topic :: System :: Systems Administration",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "fastapi>=0.73.0",
+    "pydantic>=1.9.0",
+    "python-decouple",  # Use full package name for clarity
+    "starlette>=0.17.1",
+    "PyJWT>=2.8.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/alirezaheidari-cs/fastapi-auth-jwt#readme"
+Source = "https://github.com/alirezaheidari-cs/fastapi-auth-jwt"
+Tracker = "https://github.com/alirezaheidari-cs/fastapi-auth-jwt/issues"
+
+[project.optional-dependencies]
+redis = ["redis>=4.2.0"]
+test = [
+    "pytest>=6.2.4",
+    "pytest-asyncio>=0.17,<0.23.0",
+    "pre-commit>=2.20.0",
+    "freezegun",
+]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "tests",
+]
+# pytest-asyncio
+asyncio_mode = "auto"
+
+[tool.isort]
+profile = "black"
+atomic = true
+filter_files = true
+
+[tool.black]
+line-length = 130
+include = '\.pyi?$'
+
+[tool.ruff]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = [
+    "E501",  # line too long
+    "B008",  # do not perform function calls in argument defaults
+    "B904",  # 
+    "C901",  # too complex
+    "E711",  # comparison to None should be 'if cond is None:'; sqlalchemy is not supported.
+    "E712",  # comparison to True should be 'if cond is True:' or 'if cond:'
+]
+line-length = 130
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.pdm.scripts]
+lint = "pre-commit run --all-files"
+test = "pytest"
+
+[tool.pdm.dev-dependencies]

@@ -1,5 +1,5 @@
-from ..config import StorageConfig, StorageTypes
 from .base import BaseRepository
+from ..config import StorageConfig, StorageTypes
 
 
 class RepositoryFactory:

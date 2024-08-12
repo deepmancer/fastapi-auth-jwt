@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from typing import Any, Optional, Union
 
-from ..config import StorageConfig
 from .base import BaseRepository
+from ..config import StorageConfig
 
 
 class LocalRepository(BaseRepository):

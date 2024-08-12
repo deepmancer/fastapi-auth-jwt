@@ -3,8 +3,8 @@ from typing import Any, Optional, Union
 
 from redis.asyncio import Redis
 
-from ..config.storage import RedisConfig
 from .base import BaseRepository
+from ..config.storage import RedisConfig
 
 
 class RedisRepository(BaseRepository):

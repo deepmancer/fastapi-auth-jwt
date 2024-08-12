@@ -46,9 +46,9 @@ dependencies = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/alirezaheidari-cs/fastapi-auth-jwt#readme"
-Source = "https://github.com/alirezaheidari-cs/fastapi-auth-jwt"
-Tracker = "https://github.com/alirezaheidari-cs/fastapi-auth-jwt/issues"
+Documentation = "https://github.com/deepmancer/fastapi-auth-jwt#readme"
+Source = "https://github.com/deepmancer/fastapi-auth-jwt"
+Tracker = "https://github.com/deepmancer/fastapi-auth-jwt/issues"
 
 [project.optional-dependencies]
 redis = ["redis>=4.2.0"]

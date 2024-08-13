@@ -2,18 +2,16 @@
 requires = ["flit_core >=2,<4"]
 build-backend = "flit_core.buildapi"
 
-[project]
-name = "fastapi_auth_jwt"
-authors = [
-    { name = "Alireza Heidari", email = "alirezaheidari.cs@gmail.com" },
-]
-maintainers = [
-    { name = "Alireza Heidari", email = "alirezaheidari.cs@gmail.com" },
-]
+[tool.poetry]
+name = "fastapi-auth-jwt"
+version = "0.1.0"
 description = "FastAPI-Auth-JWT is a ready-to-use and easy-to-customize authentication middleware for FastAPI."
+authors = ["Alireza Heidari <alirezaheidari.cs@gmail.com>"]
+maintainers = ["Alireza Heidari <alirezaheidari.cs@gmail.com>"]
+license = "Apache-2.0"
 readme = "README.md"
-requires-python = ">=3.8"
-dynamic = ["version"]
+repository = "https://github.com/deepmancer/fastapi-auth-jwt"
+documentation = "https://github.com/deepmancer/fastapi-auth-jwt#readme"
 keywords = [
     "fastapi",
     "fastapi-user-auth",
@@ -37,69 +35,20 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
-dependencies = [
-    "fastapi>=0.73.0",
-    "pydantic>=1.9.0",
-    "python-decouple",  # Use full package name for clarity
-    "starlette>=0.17.1",
-    "PyJWT>=2.8.0",
-]
 
-[project.urls]
-Documentation = "https://github.com/deepmancer/fastapi-auth-jwt#readme"
-Source = "https://github.com/deepmancer/fastapi-auth-jwt"
-Tracker = "https://github.com/deepmancer/fastapi-auth-jwt/issues"
+[tool.poetry.dependencies]
+python = ">=3.8"
+fastapi = ">=0.73.0"
+pydantic = ">=2"
+python-decouple = "^3.8"
+pyjwt = "^2.9.0"
+redis = {version=">=4.0.0", extras=["redis"]}
 
-[project.optional-dependencies]
-redis = ["redis>=4.2.0"]
-test = [
-    "pytest>=6.2.4",
-    "pytest-asyncio>=0.17,<0.23.0",
-    "pre-commit>=2.20.0",
-    "freezegun",
-]
+[tool.poetry.group.test.dependencies]
+pre-commit = "*"
+freezegun = ">=1.5.1"
+pytest = "*"
+pytest-asyncio = "*"
 
-[tool.pytest.ini_options]
-minversion = "6.0"
-testpaths = [
-    "tests",
-]
-# pytest-asyncio
-asyncio_mode = "auto"
-
-[tool.isort]
-profile = "black"
-atomic = true
-filter_files = true
-
-[tool.black]
-line-length = 130
-include = '\.pyi?$'
-
-[tool.ruff]
-select = [
-    "E",  # pycodestyle errors
-    "W",  # pycodestyle warnings
-    "F",  # pyflakes
-    "I",  # isort
-    "C",  # flake8-comprehensions
-    "B",  # flake8-bugbear
-]
-ignore = [
-    "E501",  # line too long
-    "B008",  # do not perform function calls in argument defaults
-    "B904",  # 
-    "C901",  # too complex
-    "E711",  # comparison to None should be 'if cond is None:'; sqlalchemy is not supported.
-    "E712",  # comparison to True should be 'if cond is True:' or 'if cond:'
-]
-line-length = 130
-
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
-
-[tool.pdm.scripts]
-lint = "pre-commit run --all-files"
-test = "pytest"
-
-[tool.pdm.dev-dependencies]
+[tool.poetry.extras]
+redis = ["redis"]

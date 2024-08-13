@@ -2,7 +2,7 @@
 ![fastapi_auth_jwt_logo]()
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f9a04cd6-6502-40f1-b69d-950295e70e63?sanitize=true" alt="FastAPI Auth JWT">
+  <img src="https://raw.githubusercontent.com/deepmancer/fastapi-auth-jwt/master/logo.svg?sanitize=true" alt="FastAPI Auth JWT">
 </p>
 
 <p align="center">

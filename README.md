@@ -8,8 +8,6 @@
     <em>Highly-customizable and ready-to-use session authentication for FastAPI applications </em>
 </p>
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-80-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 <p align="center">
     <a href="https://github.com/deepmancer/fastapi-auth-jwt/actions/" target="_blank">
         <img src="https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg" alt="Pytest">

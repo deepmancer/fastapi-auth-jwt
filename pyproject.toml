@@ -1,17 +1,86 @@
-[build-system]
-requires = ["flit_core >=2,<4"]
-build-backend = "flit_core.buildapi"
+[tool.isort]
+profile = "black"
 
-[tool.poetry]
+[[tool.mypy.overrides]]
+module = "decouple.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "jwt.*"
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
+extend-select = ["UP"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+source = "regex_commit"
+commit_extra_args = ["-e"]
+path = "fastapi_auth_jwt/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+  "/docs",
+]
+
+[tool.hatch.envs.default]
+features = [
+    "redis",
+]
+dependencies = [
+    "pytest",
+    "isort",
+    "pytest-asyncio",
+    "mike",
+    "mypy",
+    "pytest-cov",
+    "pytest-mock",
+    "pygments",
+    "pymdown-extensions",
+    "ruff",
+]
+
+[tool.hatch.envs.default.scripts]
+lint = [
+  "isort ./fastapi_auth_jwt ./tests",
+  "ruff format .",
+  "ruff check --fix .",
+  "mypy fastapi_auth_jwt/",
+]
+lint-check = [
+  "isort --check-only ./fastapi_auth_jwt ./tests",
+  "ruff format .",
+  "ruff check .",
+  "mypy fastapi_auth_jwt/",
+]
+
+[tool.hatch.envs.test.scripts]
+test = "pytest --cov=fastapi_auth_jwt/ --cov-report=term-missing --cov-fail-under=100"
+test-cov-xml = "pytest --cov=fastapi_auth_jwt/ --cov-report=xml --cov-fail-under=100"
+
+[build-system]
+requires = ["hatchling", "hatch-regex-commit"]
+build-backend = "hatchling.build"
+
+[project]
 name = "fastapi-auth-jwt"
-version = "0.1.0"
-description = "FastAPI-Auth-JWT is a ready-to-use and easy-to-customize authentication middleware for FastAPI."
-authors = ["Alireza Heidari <alirezaheidari.cs@gmail.com>"]
-maintainers = ["Alireza Heidari <alirezaheidari.cs@gmail.com>"]
-license = "Apache-2.0"
+authors = [
+  { name = "deepmancer", email = "alirezaheidari.cs@gmail.com" },
+]
+description = 'FastAPI-Auth-JWT is a ready-to-use and easy-to-customize authentication middleware for FastAPI.'
 readme = "README.md"
-repository = "https://github.com/deepmancer/fastapi-auth-jwt"
-documentation = "https://github.com/deepmancer/fastapi-auth-jwt#readme"
+dynamic = ["version"]
+requires-python = ">=3.8"
+license = "MIT"
 keywords = [
     "fastapi",
     "fastapi-user-auth",
@@ -25,30 +94,31 @@ keywords = [
 ]
 classifiers = [
     "Framework :: FastAPI",
-    "Environment :: Web Environment",
-    "Topic :: System :: Systems Administration",
-    "License :: OSI Approved :: Apache Software License",
-    "Operating System :: OS Independent",
+    "Framework :: AsyncIO",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Internet :: WWW/HTTP :: Session",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+]
+dependencies = [
+    "fastapi >=0.65.2",
+    "pydantic>=2.0.0",
+    "python-decouple",
+    "starlette>=0.17.1",
+    "PyJWT>=2.8.0",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.8"
-fastapi = ">=0.73.0"
-pydantic = ">=2"
-python-decouple = "^3.8"
-pyjwt = "^2.9.0"
-redis = {version=">=4.0.0", extras=["redis"]}
+[project.optional-dependencies]
+redis = [
+    "redis >=4.3.3,<6.0.0",
+]
 
-[tool.poetry.group.test.dependencies]
-pre-commit = "*"
-freezegun = ">=1.5.1"
-pytest = "*"
-pytest-asyncio = "*"
-
-[tool.poetry.extras]
-redis = ["redis"]
+[project.urls]
+Documentation = "https://github.com/deepmancer/fastapi-auth-jwt#readme"
+Issues = "https://github.com/deepmancer/fastapi-auth-jwt/issues"
+Source = "https://github.com/deepmancer/fastapi-auth-jwt"

@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from typing import Any, Optional
+from typing import Any, Optional, Dict
 
 from ..config.storage import StorageConfig
 from ..config.types import EXPIRATION_DTYPE
@@ -16,8 +16,8 @@ class LocalRepository(BaseRepository):
     allows retrieving and deleting stored values.
 
     Attributes:
-        _store (dict): The dictionary that stores key-value pairs.
-        _expirations (dict): A dictionary that keeps track of expiration times for keys.
+        _store (Dict[str, Any]): The dictionary that stores key-value pairs.
+        _expirations (Dict[str, datetime]): A dictionary that keeps track of expiration times for keys.
         _config (StorageConfig): Configuration object for the repository.
     """
 
@@ -28,8 +28,8 @@ class LocalRepository(BaseRepository):
         Args:
             config (StorageConfig): The configuration object for the repository.
         """
-        self._store: dict[str, Any] = {}
-        self._expirations: dict[str, datetime] = {}
+        self._store: Dict[str, Any] = {}
+        self._expirations: Dict[str, datetime] = {}
         self._config: StorageConfig = config
 
     @property

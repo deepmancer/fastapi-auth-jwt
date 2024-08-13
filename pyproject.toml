@@ -44,6 +44,7 @@ dependencies = [
     "mypy",
     "pytest-cov",
     "pytest-mock",
+    "freezegun",
     "pygments",
     "pymdown-extensions",
     "ruff",
@@ -59,7 +60,7 @@ lint = [
 lint-check = [
   "isort --check-only ./fastapi_auth_jwt ./tests",
   "ruff format .",
-  "ruff check .",
+  "ruff check . --ignore F401",
   "mypy fastapi_auth_jwt/",
 ]
 

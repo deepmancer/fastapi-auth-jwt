@@ -116,7 +116,7 @@ async def logout(request: Request):
     return {"message": "Logged out"}
 ```
 
-### **🔄 Using Redis for Token Storage**
+### **🧰 Using Redis for Token Storage**
 
 To enable Redis as the storage backend:
 
@@ -167,7 +167,7 @@ For a fully working example, refer to the [example directory](https://github.com
 
 ## **📚 Documentation**
 
-Comprehensive documentation is available in the [docs directory](https://github.com/deepmancer/fastapi-auth-jwt/docs) and hosted online at [Read the Docs](https://fastapi-auth-jwt.readthedocs.io).
+Comprehensive documentation is available in the [docs directory](https://github.com/deepmancer/fastapi-auth-jwt/docs)
 
 ## **🤝 Contributing**
 

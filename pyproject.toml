@@ -53,7 +53,7 @@ dependencies = [
 lint = [
   "isort ./fastapi_auth_jwt ./tests",
   "ruff format .",
-  "ruff check --fix .",
+  "ruff check --fix . --ignore F401",
   "mypy fastapi_auth_jwt/",
 ]
 lint-check = [

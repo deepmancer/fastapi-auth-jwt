@@ -1,7 +1,7 @@
 # FastAPI Auth JWT
 
 <p align="center">
-  <img src="https://github.com/deepmancer/fastapi-auth-jwt/master/logo.svg?sanitize=true" alt="FastAPI Auth JWT">
+  <img src="fastapi_auth_jwt_logo.png" alt="FastAPI Auth JWT">
 </p>
 
 <p align="center">

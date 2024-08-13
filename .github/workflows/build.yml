@@ -72,8 +72,8 @@ jobs:
         pip install hatch
     - name: Build and publish on PyPI
       env:
-        HATCH_INDEX_USER: ${{ secrets.HATCH_INDEX_USER }}
-        HATCH_INDEX_AUTH: ${{ secrets.HATCH_INDEX_AUTH }}
+        HATCH_INDEX_USER: __token__
+        HATCH_INDEX_AUTH: ${{ secrets.pypi_token }}
       run: |
         hatch build
         hatch publish

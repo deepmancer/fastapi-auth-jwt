@@ -45,6 +45,7 @@ dependencies = [
     "pytest-cov",
     "pytest-mock",
     "freezegun",
+    "httpx>=0.23.3",
     "pygments",
     "pymdown-extensions",
     "ruff",

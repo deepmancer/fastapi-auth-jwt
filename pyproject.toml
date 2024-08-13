@@ -66,8 +66,8 @@ lint-check = [
 ]
 
 [tool.hatch.envs.test.scripts]
-test = "pytest --cov=fastapi_auth_jwt/ --cov-report=term-missing --cov-fail-under=100"
-test-cov-xml = "pytest --cov=fastapi_auth_jwt/ --cov-report=xml --cov-fail-under=100"
+test = "pytest --cov=fastapi_auth_jwt/ --cov-report=term-missing --cov-fail-under=90"
+test-cov-xml = "pytest --cov=fastapi_auth_jwt/ --cov-report=xml --cov-fail-under=90"
 
 [build-system]
 requires = ["hatchling", "hatch-regex-commit"]

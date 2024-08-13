@@ -30,7 +30,9 @@ def redis_mock():
 @pytest_asyncio.fixture()
 async def redis_repository(redis_config, redis_mock):
     """Fixture to create a RedisRepository instance with a mocked Redis client."""
-    with patch("fastapi_auth_jwt.repository.redis.Redis.from_url", return_value=redis_mock):
+    with patch(
+        "fastapi_auth_jwt.repository.redis.Redis.from_url", return_value=redis_mock
+    ):
         repo = RedisRepository(config=redis_config)
         repo._redis = redis_mock
         yield repo
@@ -110,7 +112,10 @@ def test_singleton_behavior(redis_repository):
 @pytest.mark.asyncio
 async def test_redis_connection_failure(redis_config):
     """Test that a RedisRepository raises an exception when the connection fails."""
-    with patch("fastapi_auth_jwt.repository.redis.Redis.from_url", side_effect=Exception("Connection error")):
+    with patch(
+        "fastapi_auth_jwt.repository.redis.Redis.from_url",
+        side_effect=Exception("Connection error"),
+    ):
         with pytest.raises(Exception) as exc_info:
             RedisRepository(config=redis_config)
 

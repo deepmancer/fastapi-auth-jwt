@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from fastapi_auth_jwt.config import StorageConfig
+from fastapi_auth_jwt.config.storage import StorageConfig
 from fastapi_auth_jwt.repository.local import LocalRepository
 
 

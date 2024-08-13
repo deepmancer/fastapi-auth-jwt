@@ -61,7 +61,10 @@ async def test_protected_route_with_invalid_scheme(client):
     headers = {"Authorization": "Basic invalidtoken"}
     response = client.get("/protected", headers=headers)
     assert response.status_code == 400
-    assert response.json()["detail"] == "Invalid authorization header, expected value in format 'Bearer <token>'."
+    assert (
+        response.json()["detail"]
+        == "Invalid authorization header, expected value in format 'Bearer <token>'."
+    )
 
 
 @pytest.mark.asyncio
@@ -131,7 +134,9 @@ async def test_extract_token_from_request_no_authorization(client, monkeypatch):
 
 @pytest.mark.asyncio
 async def test_extract_token_from_request_invalid_header_format(client, monkeypatch):
-    request = Request(scope={"type": "http", "headers": [(b"authorization", b"InvalidFormat")]})
+    request = Request(
+        scope={"type": "http", "headers": [(b"authorization", b"InvalidFormat")]}
+    )
 
     with pytest.raises(HTTPException) as exc_info:
         JWTAuthenticationMiddleware.extract_token_from_request(request)
@@ -141,18 +146,28 @@ async def test_extract_token_from_request_invalid_header_format(client, monkeypa
 
 @pytest.mark.asyncio
 async def test_extract_token_from_request_invalid_scheme(client, monkeypatch):
-    request = Request(scope={"type": "http", "headers": [(b"authorization", b"Basic sometoken")]})
+    request = Request(
+        scope={"type": "http", "headers": [(b"authorization", b"Basic sometoken")]}
+    )
 
     with pytest.raises(HTTPException) as exc_info:
         JWTAuthenticationMiddleware.extract_token_from_request(request)
     assert exc_info.value.status_code == 400
-    assert exc_info.value.detail == "Invalid authorization header, expected value in format 'Bearer <token>'."
+    assert (
+        exc_info.value.detail
+        == "Invalid authorization header, expected value in format 'Bearer <token>'."
+    )
 
 
 @pytest.mark.asyncio
 async def test_extract_token_from_request_valid_header(client, monkeypatch):
     token = "validtoken"
-    request = Request(scope={"type": "http", "headers": [(b"authorization", f"Bearer {token}".encode())]})
+    request = Request(
+        scope={
+            "type": "http",
+            "headers": [(b"authorization", f"Bearer {token}".encode())],
+        }
+    )
 
     extracted_token = JWTAuthenticationMiddleware.extract_token_from_request(request)
     assert extracted_token == token
@@ -161,7 +176,12 @@ async def test_extract_token_from_request_valid_header(client, monkeypatch):
 @pytest.mark.asyncio
 async def test_extract_token_from_request_token_in_cookie(client, monkeypatch):
     token = "validtoken"
-    request = Request(scope={"type": "http", "headers": [(b"cookie", f"Authorization=Bearer {token}".encode())]})
+    request = Request(
+        scope={
+            "type": "http",
+            "headers": [(b"cookie", f"Authorization=Bearer {token}".encode())],
+        }
+    )
 
     extracted_token = JWTAuthenticationMiddleware.extract_token_from_request(request)
     assert extracted_token == token

@@ -1,8 +1,8 @@
 import pydantic
 import pytest
 
-from fastapi_auth_jwt.config import StorageTypes
 from fastapi_auth_jwt.config.storage import RedisConfig, StorageConfig
+from fastapi_auth_jwt.config.storage_type import StorageTypes
 from fastapi_auth_jwt.repository.base import BaseRepository
 from fastapi_auth_jwt.repository.factory import RepositoryFactory
 from fastapi_auth_jwt.repository.local import LocalRepository

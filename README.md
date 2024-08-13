@@ -8,10 +8,16 @@
     <em>Highly-customizable and ready-to-use session authentication for FastAPI applications </em>
 </p>
 
-[![build](https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg)](https://github.com/deepmancer/fastapi-auth-jwt/actions)
-[![codecov](https://codecov.io/gh/deepmancer/fastapi-auth-jwt/branch/master/graph/badge.svg)](https://codecov.io/gh/deepmancer/fastapi-auth-jwt)
-[![PyPI version](https://badge.fury.io/py/fastapi-auth-jwt.svg)](https://badge.fury.io/py/fastapi-auth-jwt)
-[![Downloads](https://pepy.tech/badge/fastapi-auth-jwt)](https://pepy.tech/project/fastapi-auth-jwt)
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-80-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+<p align="center">
+    <a href="https://github.com/deepmancer/fastapi-auth-jwt/actions/" target="_blank">
+        <img src="https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg" alt="Pytest">
+    </a>
+    <a href="https://pypi.org/project/fastapi_user_auth" target="_blank">
+        <img src="https://badgen.net/pypi/v/fastapi-auth-jwt?color=blue" alt="Package version">
+    </a>
+    <a href="https://pepy.tech/project/fastapi-auth-jwt" target="_blank">
+        <img src="https://pepy.tech/badge/fastapi-auth-jwt" alt="Downloads">
+    </a>
+</p>

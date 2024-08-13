@@ -22,6 +22,9 @@ class JWTAuthenticationMiddleware(BaseHTTPMiddleware):
     Attributes:
         backend (JWTAuthBackend): The backend used for JWT authentication.
         exclude_urls (List[str]): A list of URL paths that are excluded from authentication.
+
+    Methods:
+        dispatch(request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response: Handle incoming requests and apply JWT authentication
     """
 
     def __init__(

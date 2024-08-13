@@ -21,11 +21,18 @@ class JWTAuthBackend:
     It supports configurable authentication settings, user schemas, and storage backends.
 
     Attributes:
-        _config (AuthConfig): Configuration for authentication (e.g., secret key, algorithm).
+        _config (AuthConfig): Configuration for authentication (e.g., secret key, jwt_algorithm).
         _user_schema (Type[BaseModel]): Schema for validating user data.
         _storage_config (StorageConfig): Configuration for the storage backend.
         _cache (BaseRepository): The cache repository for storing and retrieving token data.
         _jwt_handler (JWTHandler): Handler for encoding and decoding JWT tokens.
+
+    Methods:
+        authenticate(token: str) -> Optional[BaseModel]: Authenticate a user based on a provided JWT token.
+        create_token(user_data: Union[Dict[str, Any], pydantic.BaseModel], expiration: Optional[Union[int, float, timedelta]]) -> str: Create a JWT token with an optional expiration time.
+        invalidate_token(token: str) -> None: Invalidate a JWT token by removing it from the cache.
+        get_current_user(token: str) -> Optional[BaseModel]: Retrieve the current user based on a JWT token.
+        get_instance() -> Optional["JWTAuthBackend"]: Get the singleton instance of the JWTAuthBackend class.
     """
 
     _instance: Optional["JWTAuthBackend"] = None
@@ -48,7 +55,7 @@ class JWTAuthBackend:
             self._cache = RepositoryFactory.create(self._storage_config)
             self._jwt_handler = JWTHandler(
                 secret=self.config.secret,
-                algorithm=self.config.algorithm,
+                algorithm=self.config.jwt_algorithm,
             )
             self._initialized = True
 
@@ -82,14 +89,14 @@ class JWTAuthBackend:
 
     async def create_token(
         self,
-        payload: Dict[str, Any],
+        user_data: Union[Dict[str, Any], BaseModel],
         expiration: Optional[Union[int, float, timedelta]] = None,
     ) -> str:
         """
         Create a JWT token with an optional expiration time.
 
         Args:
-            payload (Dict[str, Any]): The payload data to encode into the JWT.
+            user_data (Union[Dict[str, Any], BaseModel]): The payload data to encode into the JWT.
             expiration (Optional[Union[int, float, datetime.timedelta]]): Expiration time in seconds or timedelta.
 
         Returns:
@@ -103,6 +110,11 @@ class JWTAuthBackend:
             >>> token = await backend.create_token({"user_id": 123}, expiration=3600)
             >>> print(f"Generated token: {token}")
         """
+        if isinstance(user_data, BaseModel):
+            payload = user_data.model_dump()
+        else:
+            payload = user_data
+
         if expiration is None:
             expiration_candidates = ["expire", "expiration", "exp"]
             for field in self.config.model_fields.keys():

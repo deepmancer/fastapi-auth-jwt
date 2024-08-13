@@ -9,17 +9,17 @@ class AuthConfig(BaseModel):
     Configuration class for authentication settings.
 
     This class is used to configure authentication-related settings, such as the secret key,
-    algorithm used for token encoding, and token expiration time in seconds. It also provides
+    algorithm used for token encoding (jwt), and token expiration time in seconds. It also provides
     validation for these settings and computed fields for convenience.
 
     Attributes:
         secret (str): The secret key used for signing tokens. Defaults to "default_secret".
-        algorithm (str): The algorithm used for encoding tokens. Defaults to "HS256".
+        jwt_algorithm (str): The algorithm used for encoding tokens. Defaults to "HS256".
         expiration_seconds (int): The token expiration time in seconds. Defaults to 3600.
     """
 
     secret: str = Field(default="default_secret")
-    algorithm: str = Field(default="HS256")
+    jwt_algorithm: str = Field(default="HS256")
     expiration_seconds: int = Field(default=3600)
 
     @field_validator("expiration_seconds", mode="before")

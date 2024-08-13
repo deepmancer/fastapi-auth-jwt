@@ -17,7 +17,4 @@
     <a href="https://pypi.org/project/fastapi_user_auth" target="_blank">
         <img src="https://badgen.net/pypi/v/fastapi-auth-jwt?color=blue" alt="Package version">
     </a>
-    <a href="https://pepy.tech/project/fastapi-auth-jwt" target="_blank">
-        <img src="https://pepy.tech/badge/fastapi-auth-jwt" alt="Downloads">
-    </a>
 </p>

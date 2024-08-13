@@ -12,7 +12,9 @@ def test_auth_token_config():
     assert config.expiration_minutes == 60
 
     # Test custom values
-    config = AuthConfig(secret="mysecret", jwt_algorithm="HS512", expiration_seconds=1800)
+    config = AuthConfig(
+        secret="mysecret", jwt_algorithm="HS512", expiration_seconds=1800
+    )
     assert config.secret == "mysecret"
     assert config.jwt_algorithm == "HS512"
     assert config.expiration_seconds == 1800

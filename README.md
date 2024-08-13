@@ -16,7 +16,7 @@
         <img src="https://badgen.net/pypi/v/fastapi-auth-jwt?color=blue" alt="Package version">
     </a>
     <a href="https://codecov.io/gh/deepmancer/fastapi-auth-jwt" target="_blank">
-        <img src="https://codecov.io/gh/deepmancer/fastapi-auth-jwt/branch/master/graph/badge.svg" alt="Coverage">
+        <img src="https://codecov.io/gh/deepmancer/fastapi-auth-jwt/branch/main/graph/badge.svg" alt="Coverage">
     </a>
 </p>
 

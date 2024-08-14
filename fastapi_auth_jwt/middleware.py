@@ -109,6 +109,8 @@ class JWTAuthenticationMiddleware(BaseHTTPMiddleware):
         try:
             token = self.extract_token_from_request(request)
             user = await self.backend.authenticate(token)
+            if user is None:
+                raise HTTPException(status_code=401, detail="User not found.")
         except jwt.MissingRequiredClaimError as exc:
             return self._handle_authentication_exception(
                 request,

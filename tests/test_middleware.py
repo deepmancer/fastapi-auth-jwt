@@ -225,3 +225,18 @@ async def test_sync_protected_route_with_valid_token(client, monkeypatch):
     response = client.get("/sync-protected", headers=headers)
     assert response.status_code == 200
     assert response.json() == {"message": "Protected for testuser"}
+
+
+def test_default_exluded_routes():
+    expected_excluded_urls = [
+        "/docs",
+        "/openapi.json",
+        "/redoc",
+        "/swagger-ui",
+        "/swagger",
+        "/swagger.json",
+        "/favicon.ico",
+    ]
+    assert sorted(JWTAuthenticationMiddleware._default_excluded_urls) == sorted(
+        expected_excluded_urls
+    )

@@ -74,6 +74,9 @@ class RedisConfig(StorageConfig):
         """
         attributes = self.model_dump(exclude={"url"}, exclude_none=True)
         attributes["url"] = self.get_url()
+        attributes["storage_type"] = self.storage_type.value if not isinstance(
+            self.storage_type, str
+        ) else self.storage_type
         attributes_str = ", ".join([f"{k}={v}" for k, v in attributes.items()])
         return f"RedisConfig({attributes_str})"
 

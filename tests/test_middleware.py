@@ -9,7 +9,7 @@ from fastapi_auth_jwt.middleware import JWTAuthenticationMiddleware
 
 
 @pytest.fixture
-def app():
+def app(jwt_auth_backend):
     app = FastAPI()
 
     @app.get("/unprotected")
@@ -30,7 +30,7 @@ def app():
 
     app.add_middleware(
         JWTAuthenticationMiddleware,
-        backend=JWTAuthBackend(),
+        backend=jwt_auth_backend,
         exclude_urls=["/unprotected", "/sync-unprotected"],
     )
 

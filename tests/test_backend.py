@@ -1,45 +1,13 @@
-from unittest.mock import patch
+import json
+from datetime import timedelta
+from unittest.mock import MagicMock, patch
 
 import jwt
 import pytest
 from pydantic import BaseModel
 
 from fastapi_auth_jwt.backend import JWTAuthBackend
-from fastapi_auth_jwt.config.auth_token import AuthConfig
-from fastapi_auth_jwt.config.storage import StorageConfig
-
-
-class MockUser(BaseModel):
-    user_id: int
-    username: str
-
-
-@pytest.fixture(scope="function")
-def auth_config():
-    return AuthConfig(secret="mysecret", algorithm="HS256")
-
-
-@pytest.fixture(scope="function")
-def storage_config():
-    return StorageConfig()
-
-
-@pytest.fixture(scope="function")
-def jwt_auth_backend(auth_config, storage_config):
-    return JWTAuthBackend(
-        authentication_config=auth_config,
-        storage_config=storage_config,
-        user_schema=MockUser,
-    )
-
-
-@pytest.mark.asyncio
-async def test_singleton_instance(jwt_auth_backend):
-    # Ensure singleton behavior
-    instance_1 = JWTAuthBackend.get_instance()
-    instance_2 = JWTAuthBackend.get_instance()
-    assert instance_1 is instance_2
-    assert instance_1 is not None
+from tests.conftest import MockUser
 
 
 @pytest.mark.asyncio
@@ -100,7 +68,7 @@ async def test_get_current_user_with_valid_token(jwt_auth_backend):
     payload = {"user_id": 1, "username": "john_doe"}
     token = await jwt_auth_backend.create_token(payload, expiration=3600)
 
-    with patch.object(jwt_auth_backend.cache, "get", return_value=payload):
+    with patch.object(jwt_auth_backend.cache, "get", return_value=json.dumps(payload)):
         user = await jwt_auth_backend.get_current_user(token)
         assert user.user_id == 1
         assert user.username == "john_doe"
@@ -165,7 +133,86 @@ async def test_handle_token_payload_mismatch(jwt_auth_backend):
     with patch.object(
         jwt_auth_backend.cache,
         "get",
-        return_value={"user_id": 1, "username": "jane_doe"},
+        return_value=json.dumps({"user_id": 1, "username": "jane_doe"}),
     ):
         with pytest.raises(jwt.InvalidTokenError):
             await jwt_auth_backend.get_current_user(token)
+
+
+@pytest.mark.asyncio
+async def test_invalidate_cache_with_valid_token(jwt_auth_backend):
+    payload = {"user_id": 1, "username": "john_doe"}
+    token = await jwt_auth_backend.create_token(payload, expiration=3600)
+
+    await jwt_auth_backend.invalidate_token(token)
+
+    # Try to get the user with the invalidated token, should return None
+    with patch.object(jwt_auth_backend.cache, "get", return_value=None):
+        user = await jwt_auth_backend.get_current_user(token)
+        assert user is None
+
+
+@pytest.mark.asyncio
+async def test_invalidate_cache_with_invalid_token(jwt_auth_backend):
+    with pytest.raises(jwt.InvalidTokenError):
+        await jwt_auth_backend.invalidate_token("invalid_token")
+
+
+@pytest.mark.asyncio
+async def test_invalidate_cache_with_token_not_in_cache(jwt_auth_backend):
+    payload = {"user_id": 1, "username": "john_doe"}
+    token = await jwt_auth_backend.create_token(payload, expiration=3600)
+
+    with patch.object(
+        jwt_auth_backend.cache, "delete", side_effect=Exception("Cache error")
+    ):
+        with pytest.raises(Exception):
+            await jwt_auth_backend.invalidate_token(token)
+
+
+@pytest.mark.asyncio
+async def test_create_token_with_no_expiration(jwt_auth_backend):
+    payload = {"user_id": 1, "username": "john_doe"}
+    token = await jwt_auth_backend.create_token(payload)
+    assert isinstance(token, str)
+
+
+@pytest.mark.asyncio
+async def test_create_token_with_invalid_payload(jwt_auth_backend):
+    payload = "invalid_payload"
+    with pytest.raises(TypeError):
+        await jwt_auth_backend.create_token(payload, expiration=3600)
+
+
+@pytest.mark.asyncio
+async def test_create_token_with_negative_expiration(jwt_auth_backend):
+    payload = {"user_id": 1, "username": "john_doe"}
+    with pytest.raises(ValueError):
+        await jwt_auth_backend.create_token(payload, expiration=-3600)
+
+
+@pytest.mark.asyncio
+async def test_create_token_with_float_expiration(jwt_auth_backend):
+    payload = {"user_id": 1, "username": "john_doe"}
+    token = await jwt_auth_backend.create_token(payload, expiration=1.5)
+    assert isinstance(token, str)
+
+
+@pytest.mark.asyncio
+async def test_create_token_with_timedelta_expiration(jwt_auth_backend):
+    payload = {"user_id": 1, "username": "john_doe"}
+    expiration = timedelta(hours=1)
+    token = await jwt_auth_backend.create_token(payload, expiration=expiration)
+    assert isinstance(token, str)
+
+
+def test_singleton_instance(jwt_auth_backend):
+    instance_1 = JWTAuthBackend.get_instance()
+    instance_2 = JWTAuthBackend.get_instance()
+    assert instance_1 is instance_2
+    assert instance_1 is not None
+
+    instance_1 = JWTAuthBackend()
+    instance_2 = JWTAuthBackend()
+    assert instance_1 is instance_2
+    assert instance_1 is not None

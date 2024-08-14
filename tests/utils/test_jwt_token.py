@@ -145,3 +145,39 @@ def test_decode_with_future_token(jwt_handler):
 
     with pytest.raises(jwt.ImmatureSignatureError):
         jwt_handler.decode(token)
+
+
+def test_encode_with_invalid_type(jwt_handler):
+    payload = {"user_id": set([1, 2, 3])}  # Sets are not JSON serializable
+    with pytest.raises(TypeError):
+        jwt_handler.encode(payload)
+
+
+def test_decode_with_invalid_token(jwt_handler):
+    invalid_token = "invalid.token.string"
+    with pytest.raises(jwt.DecodeError):
+        jwt_handler.decode(invalid_token)
+
+
+def test_decode_with_unexpected_error(jwt_handler, mocker):
+    payload = {"user_id": 1, "username": "john_doe"}
+    expiration = 3600
+    token = jwt_handler.encode(payload, expiration)
+
+    mocker.patch("jwt.decode", side_effect=Exception("Unexpected error"))
+    with pytest.raises(
+        Exception,
+        match="An unexpected error occurred while decoding the token: Unexpected error",
+    ):
+        jwt_handler.decode(token)
+
+
+def test_encode_with_unexpected_error(jwt_handler, mocker):
+    payload = {"user_id": 1, "username": "john_doe"}
+
+    mocker.patch("jwt.encode", side_effect=Exception("Unexpected error"))
+    with pytest.raises(
+        Exception,
+        match="An unexpected error occurred while encoding the token: Unexpected error",
+    ):
+        jwt_handler.encode(payload)

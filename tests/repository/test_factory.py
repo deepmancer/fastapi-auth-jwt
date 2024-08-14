@@ -37,3 +37,26 @@ def test_create_local_repository_from_custom_config():
     repository = RepositoryFactory._create_local_repository(config)
     assert isinstance(repository, BaseRepository)
     assert isinstance(repository, LocalRepository)
+
+
+def test_create_repository_with_memory_storage():
+    config = StorageConfig(storage_type=StorageTypes.MEMORY)
+    repository = RepositoryFactory.create(config)
+    assert isinstance(repository, BaseRepository)
+    assert isinstance(repository, LocalRepository)
+
+
+def test_create_repository_with_redis_storage():
+    config = RedisConfig(storage_type=StorageTypes.REDIS)
+    repository = RepositoryFactory.create(config)
+    assert isinstance(repository, BaseRepository)
+    assert isinstance(repository, RedisRepository)
+
+
+def test_create_repository_with_invalid_storage_type():
+    class CustomStorageConfig(pydantic.BaseModel):
+        storage_type: str = "INVALID_TYPE"
+
+    config = CustomStorageConfig()
+    with pytest.raises(ValueError, match="Unknown storage type: INVALID_TYPE"):
+        RepositoryFactory.create(config)

@@ -87,15 +87,16 @@ class AuthConfig(BaseModel):
         The representation includes all configuration attributes formatted as a JSON string.
 
         Returns:
-            str: A JSON-formatted string representation of the authentication configuration.
+            str: The representation of the authentication configuration.
 
         Examples:
             >>> config = AuthConfig(secret="my_secret", algorithm="HS512", expiration_seconds=7200)
             >>> repr(config)
-            '<AuthConfig: { "secret": "my_secret", "algorithm": "HS512", "expiration_seconds": 7200, "expiration_minutes": 120 }>'
+            'AuthConfig(secret=my_secret, algorithm=HS512, expiration_seconds=7200, expiration_minutes=120)'
         """
-        dict_repr = json.dumps(self.model_dump(), indent=2)
-        return f"<AuthConfig: {dict_repr}>"
+        attributes = self.model_dump(exclude_none=True)
+        attributes_str = ", ".join([f"{k}={v}" for k, v in attributes.items()])
+        return f"AuthConfig({attributes_str})"
 
     def __str__(self) -> str:
         """
@@ -104,12 +105,12 @@ class AuthConfig(BaseModel):
         This method calls `__repr__` to provide a consistent string representation.
 
         Returns:
-            str: A JSON-formatted string representation of the authentication configuration.
+            str: The representation of the authentication configuration.
 
         Examples:
             >>> config = AuthConfig(secret="my_secret", algorithm="HS512", expiration_seconds=7200)
             >>> str(config)
-            '<AuthConfig: { "secret": "my_secret", "algorithm": "HS512", "expiration_seconds": 7200, "expiration_minutes": 120 }>'
+            'AuthConfig(secret=my_secret, algorithm=HS512, expiration_seconds=7200, expiration_minutes=120)'
         """
         return self.__repr__()
 

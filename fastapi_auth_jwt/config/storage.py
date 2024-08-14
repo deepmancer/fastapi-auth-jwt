@@ -65,17 +65,17 @@ class RedisConfig(StorageConfig):
         which is dynamically generated based on other attributes using the `get_url` method.
 
         Returns:
-            str: A JSON-formatted string representation of the Redis configuration.
+            str: The representation of the Redis configuration.
 
         Examples:
             >>> config = RedisConfig(host="redis-server", port=6380, db=1)
             >>> repr(config)
-            '< RedisConfig: { "storage_type": "redis", "host": "redis-server", "port": 6380, "db": 1, "url": "redis://redis-server:6380/1" } >'
+            'RedisConfig(storage_type=redis, host=redis-server, port=6380, db=1, url=redis://redis-server:6380/1)'
         """
-        attributes = self.dict(exclude={"url"})
+        attributes = self.model_dump(exclude={"url"}, exclude_none=True)
         attributes["url"] = self.get_url()
-        attributes_str = json.dumps(attributes, indent=2)
-        return f"< RedisConfig: {attributes_str} >"
+        attributes_str = ", ".join([f"{k}={v}" for k, v in attributes.items()])
+        return f"RedisConfig({attributes_str})"
 
     def __str__(self) -> str:
         """
@@ -84,12 +84,12 @@ class RedisConfig(StorageConfig):
         This method calls `__repr__` to provide a consistent string representation.
 
         Returns:
-            str: A JSON-formatted string representation of the Redis configuration.
+            str: The representation of the Redis configuration.
 
         Examples:
             >>> config = RedisConfig(host="redis-server", port=6380, db=1)
             >>> str(config)
-            '< RedisConfig: { "storage_type": "redis", "host": "redis-server", "port": 6380, "db": 1, "url": "redis://redis-server:6380/1" } >'
+            'RedisConfig(storage_type=redis, host=redis-server, port=6380, db=1, url=redis://redis-server:6380/1)'
         """
         return self.__repr__()
 

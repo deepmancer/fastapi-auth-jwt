@@ -23,3 +23,25 @@ def test_auth_token_config():
     # Test validation
     with pytest.raises(ValueError):
         AuthConfig(expiration_seconds=-1)
+
+
+def test_auth_token_config_repr():
+    # Test __repr__ method
+    config = AuthConfig(
+        secret="my_secret", jwt_algorithm="HS512", expiration_seconds=7200
+    )
+    assert (
+        repr(config)
+        == "AuthConfig(secret=my_secret, jwt_algorithm=HS512, expiration_seconds=7200, expiration_minutes=120)"
+    )
+
+
+def test_auth_token_config_str():
+    # Test __str__ method
+    config = AuthConfig(
+        secret="my_secret", jwt_algorithm="HS512", expiration_seconds=7200
+    )
+    assert (
+        str(config)
+        == "AuthConfig(secret=my_secret, jwt_algorithm=HS512, expiration_seconds=7200, expiration_minutes=120)"
+    )

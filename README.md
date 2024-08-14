@@ -18,6 +18,9 @@
     <a href="https://codecov.io/gh/deepmancer/fastapi-auth-jwt" target="_blank">
         <img src="https://codecov.io/gh/deepmancer/fastapi-auth-jwt/branch/main/graph/badge.svg" alt="Coverage">
     </a>
+    <a href="https://github.com/deepmancer/fastapi-auth-jwt/blob/main/LICENSE" target="_blank">
+        <img src="https://img.shields.io/github/license/deepmancer/fastapi-auth-jwt.svg" alt="License">
+    </a>
 </p>
 
 

@@ -10,7 +10,7 @@
 
 <p align="center">
     <a href="https://github.com/deepmancer/fastapi-auth-jwt/actions/" target="_blank">
-        <img src="https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg" alt="Pytest">
+        <img src="https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg" alt="Build Status">
     </a>
     <a href="https://pypi.org/project/fastapi-auth-jwt/" target="_blank">
         <img src="https://img.shields.io/pypi/v/fastapi-auth-jwt.svg" alt="Package version">
@@ -18,8 +18,10 @@
     <a href="https://codecov.io/gh/deepmancer/fastapi-auth-jwt" target="_blank">
         <img src="https://codecov.io/gh/deepmancer/fastapi-auth-jwt/branch/main/graph/badge.svg" alt="Coverage">
     </a>
+    <a href="https://github.com/deepmancer/fastapi-auth-jwt/blob/main/LICENSE" target="_blank">
+        <img src="https://img.shields.io/github/license/deepmancer/fastapi-auth-jwt.svg" alt="License">
+    </a>
 </p>
-
 
 ## **✨ Features**
 
@@ -103,8 +105,10 @@ async def sign_up(request_data: RegisterSchema):
 
 @app.post("/login")
 async def login(request_data: LoginSchema):
-    user = User(username=request_data.username, password=request_data.password)
-    token = await auth_backend.create_token(user)
+    token = await auth_backend.create_token(
+        username=request_data.username,
+        password=request_data.password,
+    )
     return {"token": token}
 
 @app.get("/profile-info")
@@ -119,7 +123,7 @@ async def logout(request: Request):
     return {"message": "Logged out"}
 ```
 
-### **🧰 Using Redis for Token Storage**
+### **🧰 Redis Extension**
 
 To enable Redis as the storage backend:
 
@@ -164,9 +168,9 @@ app.add_middleware(
 - 🗃️ `db` (int): Redis database index (default: `0`).
 - 🔑 `password` (Optional[str]): Redis server password (default: `None`).
 
-## **📂 Example Project**
+## **📂 Example Projects**
 
-For a fully working example, refer to the [example directory](https://github.com/deepmancer/fastapi-auth-jwt/example) in the repository.
+For fully working examples, refer to the [examples directory](https://github.com/deepmancer/fastapi-auth-jwt/examples) in the repository.
 
 ## **📚 Documentation**
 
@@ -186,4 +190,4 @@ For any questions, suggestions, or issues, please feel free to open an issue or 
 
 ---
 
-With `fastapi-auth-jwt`, adding secure, flexible JWT-based authentication to your FastAPI applications is easier than ever. Get started today and enjoy a streamlined authentication experience! 
+With `fastapi-auth-jwt`, adding secure, flexible JWT-based authentication to your FastAPI applications is easier than ever. Get started today and enjoy a streamlined authentication experience!

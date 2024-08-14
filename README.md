@@ -170,11 +170,11 @@ app.add_middleware(
 
 ## **📂 Example Projects**
 
-For fully working examples, refer to the [examples directory](https://github.com/deepmancer/fastapi-auth-jwt/examples) in the repository.
+For fully working examples, refer to the [examples directory](https://github.com/deepmancer/fastapi-auth-jwt/tree/main/examples) in the repository.
 
 ## **📚 Documentation**
 
-Comprehensive documentation is available in the [docs directory](https://github.com/deepmancer/fastapi-auth-jwt/docs)
+Comprehensive documentation is available in the [docs directory](https://github.com/deepmancer/fastapi-auth-jwt/blob/main/docs/README.md)
 
 ## **🤝 Contributing**
 

@@ -1,0 +1,3 @@
+fastapi
+fastapi-auth-jwt
+uvicorn[standard]

@@ -1,6 +1,5 @@
-import json
 from abc import ABCMeta, abstractmethod
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 from ..config.types import EXPIRATION_DTYPE
 
@@ -39,12 +38,6 @@ class BaseRepository(metaclass=SingletonABCMeta):
 
         delete(key: str) -> None:
             Abstract method to delete a value by key.
-
-        _serialize(value: Union[str, dict]) -> str:
-            Serializes a string or dictionary value to a JSON string.
-
-        _deserialize(value: str) -> Union[str, dict]:
-            Deserializes a JSON string back to a Python object.
     """
 
     @abstractmethod
@@ -89,65 +82,6 @@ class BaseRepository(metaclass=SingletonABCMeta):
             None
         """
         pass
-
-    @classmethod
-    def _serialize(cls, value: Union[str, dict]) -> str:
-        """
-        Serialize a string or dictionary value into a JSON string.
-
-        Args:
-            value (Union[str, dict]): The value to serialize.
-
-        Returns:
-            str: The serialized JSON string.
-
-        Raises:
-            TypeError: If the value is not a string or dictionary.
-
-        Examples:
-            >>> BaseRepository._serialize({"key": "value"})
-            '{"key": "value"}'
-
-            >>> BaseRepository._serialize("simple string")
-            'simple string'
-
-            >>> BaseRepository._serialize(123)  # Raises TypeError
-        """
-        if isinstance(value, str):
-            return value
-        if isinstance(value, dict):
-            return json.dumps(value)
-        raise TypeError(f"Invalid value type: {type(value)}")
-
-    @classmethod
-    def _deserialize(cls, value: str) -> Union[str, dict]:
-        """
-        Deserialize a JSON string back into a Python object.
-
-        Args:
-            value (str): The JSON string to deserialize.
-
-        Returns:
-            Union[str, dict]: The deserialized object, either a string or dictionary.
-
-        Raises:
-            json.JSONDecodeError: If the string cannot be decoded as JSON.
-            TypeError: If the value is not a valid string.
-
-        Examples:
-            >>> BaseRepository._deserialize('{"key": "value"}')
-            {'key': 'value'}
-
-            >>> BaseRepository._deserialize("simple string")
-            'simple string'
-
-            >>> BaseRepository._deserialize("invalid json")  # Returns the original string
-            'invalid json'
-        """
-        try:
-            return json.loads(value)
-        except (json.JSONDecodeError, TypeError):
-            return value
 
 
 __all__ = ["BaseRepository"]

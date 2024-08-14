@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 from typing import Any, Dict, Optional, Type, Union
 
@@ -111,9 +112,9 @@ class JWTAuthBackend:
             >>> print(f"Generated token: {token}")
         """
         if isinstance(user_data, BaseModel):
-            payload = user_data.model_dump()
+            user = user_data
         else:
-            payload = user_data
+            user = self.user_schema.model_construct(**user_data)
 
         if expiration is None:
             expiration_candidates = ["expire", "expiration", "exp"]
@@ -128,12 +129,17 @@ class JWTAuthBackend:
                 else int(expiration)
             )
 
-        token = self.jwt_handler.encode(payload=payload, expiration=expiration)
+        if expiration is not None and expiration <= 0:
+            raise ValueError("Expiration time must be greater than zero.")
+
+        token = self.jwt_handler.encode(
+            payload=user.model_dump(exclude_none=True), expiration=expiration
+        )
 
         try:
             await self.cache.set(
                 key=token,
-                value=payload,
+                value=user.model_dump_json(exclude_none=True),
                 expiration=expiration,
             )
         except Exception as e:
@@ -155,7 +161,10 @@ class JWTAuthBackend:
             >>> backend = JWTAuthBackend()
             >>> await backend.invalidate_token("some_jwt_token")
         """
-        await self.cache.delete(token)
+        try:
+            self.jwt_handler.decode(token, verify=True)
+        finally:
+            await self.cache.delete(token)
 
     async def get_current_user(self, token: str) -> Optional[BaseModel]:
         """
@@ -180,6 +189,7 @@ class JWTAuthBackend:
         token_payload = self.jwt_handler.decode(token)
         try:
             cached_payload = await self.cache.get(token)
+            cached_payload = json.loads(cached_payload) if cached_payload else None
         except Exception as e:
             raise Exception(f"Failed to retrieve token from cache: {e}")
 
@@ -192,11 +202,9 @@ class JWTAuthBackend:
             if key not in cached_payload or cached_payload[key] != value:
                 raise jwt.InvalidTokenError(f"Token payload mismatch for key: {key}")
 
-        return self.user_schema.model_validate(
-            {
-                "token": token,
-                **cached_payload,
-            }
+        return self.user_schema.model_construct(
+            token=token,
+            **cached_payload,
         )
 
     @classmethod

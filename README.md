@@ -13,7 +13,7 @@
         <img src="https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg" alt="Pytest">
     </a>
     <a href="https://pypi.org/project/fastapi-auth-jwt/" target="_blank">
-        <img src="https://img.shields.io/pypi/v/fastapi-auth-jwt.svg&logoColor=blue" alt="Package version">
+        <img src="https://img.shields.io/pypi/v/fastapi-auth-jwt.svg" alt="Package version">
     </a>
     <a href="https://codecov.io/gh/deepmancer/fastapi-auth-jwt" target="_blank">
         <img src="https://codecov.io/gh/deepmancer/fastapi-auth-jwt/branch/main/graph/badge.svg" alt="Coverage">

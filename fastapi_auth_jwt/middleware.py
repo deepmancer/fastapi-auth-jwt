@@ -22,10 +22,21 @@ class JWTAuthenticationMiddleware(BaseHTTPMiddleware):
     Attributes:
         backend (JWTAuthBackend): The backend used for JWT authentication.
         exclude_urls (List[str]): A list of URL paths that are excluded from authentication.
+        _default_excluded_urls (List[str]): A list of default URL paths that are excluded from authentication.
 
     Methods:
         dispatch(request: Request, call_next: Callable[[Request], Awaitable[Response]]) -> Response: Handle incoming requests and apply JWT authentication
     """
+
+    _default_excluded_urls = [
+        "/docs",
+        "/redoc",
+        "/openapi.json",
+        "/swagger.json",
+        "/swagger",
+        "/favicon.ico",
+        "/swagger-ui",
+    ]
 
     def __init__(
         self,
@@ -42,8 +53,48 @@ class JWTAuthenticationMiddleware(BaseHTTPMiddleware):
             exclude_urls (Optional[List[str]]): List of URL paths to exclude from authentication.
         """
         super().__init__(app)
-        self.backend = backend or JWTAuthBackend()
-        self.exclude_urls = exclude_urls or []
+        self._backend = backend or JWTAuthBackend()
+        self._exclude_urls = exclude_urls or []
+
+    @property
+    def backend(self) -> JWTAuthBackend:
+        """
+        Get the backend used for JWT authentication.
+
+        Returns:
+            JWTAuthBackend: The backend used for JWT authentication.
+        """
+        return self._backend
+
+    @backend.setter
+    def backend(self, value: JWTAuthBackend):
+        """
+        Set the backend used for JWT authentication.
+
+        Args:
+            value (JWTAuthBackend): The backend to use for JWT authentication.
+        """
+        self._backend = value
+
+    @property
+    def exclude_urls(self) -> List[str]:
+        """
+        Get the list of URL paths that are excluded from authentication.
+
+        Returns:
+            List[str]: The list of URL paths that are excluded from authentication.
+        """
+        return self._exclude_urls
+
+    @exclude_urls.setter
+    def exclude_urls(self, value: List[str]):
+        """
+        Set the list of URL paths that are excluded from authentication.
+
+        Args:
+            value (List[str]): The list of URL paths to exclude from authentication.
+        """
+        self._exclude_urls = value
 
     @classmethod
     def extract_token_from_request(cls, request: Request) -> str:
@@ -103,7 +154,10 @@ class JWTAuthenticationMiddleware(BaseHTTPMiddleware):
             Response: The response object after processing the request.
         """
         request_url_path = request.url.path
-        if any(url in request_url_path for url in self.exclude_urls):
+        if any(
+            url in request_url_path
+            for url in self.exclude_urls + self._default_excluded_urls
+        ):
             return await call_next(request)
 
         try:

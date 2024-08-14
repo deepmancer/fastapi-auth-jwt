@@ -174,11 +174,7 @@ For fully working examples, refer to the [examples directory](https://github.com
 
 ## **📚 Documentation**
 
-Comprehensive documentation is available in the [docs directory](https://github.com/deepmancer/fastapi-auth-jwt/blob/main/docs/README.md)
-
-## **🤝 Contributing**
-
-We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for more details.
+Complete documentation is available in the [docs directory](https://github.com/deepmancer/fastapi-auth-jwt/blob/main/docs/README.md).
 
 ## **📝 License**
 

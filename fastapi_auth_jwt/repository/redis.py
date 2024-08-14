@@ -79,7 +79,7 @@ class RedisRepository(BaseRepository):
     async def set(
         self,
         key: str,
-        value: Any,
+        value: str,
         expiration: Optional[EXPIRATION_DTYPE] = None,
     ) -> None:
         """
@@ -87,7 +87,7 @@ class RedisRepository(BaseRepository):
 
         Args:
             key (str): The key to associate with the value.
-            value (Any): The value to store.
+            value (str): The value to store.
             expiration (Optional[Union[int, float, datetime.timedelta]]): Optional expiration time
                 for the key in seconds or as a timedelta. If not provided, the key will not expire.
 

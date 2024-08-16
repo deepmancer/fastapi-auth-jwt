@@ -7,7 +7,6 @@
 <p align="center">
     <em>Highly-customizable and ready-to-use session authentication for FastAPI applications </em>
 </p>
-
 <p align="center">
     <a href="https://github.com/deepmancer/fastapi-auth-jwt/actions/" target="_blank">
         <img src="https://github.com/deepmancer/fastapi-auth-jwt/workflows/Build/badge.svg" alt="Build Status">
@@ -22,6 +21,12 @@
         <img src="https://img.shields.io/github/license/deepmancer/fastapi-auth-jwt.svg" alt="License">
     </a>
 </p>
+
+<p align="center">
+    <img src="https://img.shields.io/badge/FastAPI-009688.svg?style=for-the-badge&logo=FastAPI&logoColor=white" alt="FastAPI">
+    <img src="https://img.shields.io/badge/Redis-FF4438.svg?style=for-the-badge&logo=Redis&logoColor=white" alt="Redis">
+</p>
+
 
 ## **✨ Features**
 

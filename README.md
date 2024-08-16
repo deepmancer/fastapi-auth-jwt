@@ -22,12 +22,6 @@
     </a>
 </p>
 
-<p align="center">
-    <img src="https://img.shields.io/badge/FastAPI-009688.svg?style=for-the-badge&logo=FastAPI&logoColor=white" alt="FastAPI">
-    <img src="https://img.shields.io/badge/Redis-FF4438.svg?style=for-the-badge&logo=Redis&logoColor=white" alt="Redis">
-</p>
-
-
 ## **✨ Features**
 
 - 🚀 **Effortless Integration**: Seamlessly add JWT authentication to your FastAPI application with just a few lines of code.

@@ -22,6 +22,12 @@
     </a>
 </p>
 
+---
+
+**Source Code**: <a href="https://github.com/deepmancer/fastapi-auth-jwt/" target="_blank">https://github.com/deepmancer/fastapi-auth-jwt</a>
+
+---
+
 ## **✨ Features**
 
 - 🚀 **Effortless Integration**: Seamlessly add JWT authentication to your FastAPI application with just a few lines of code.
